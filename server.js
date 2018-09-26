@@ -1,22 +1,46 @@
-// server.js
-// where your node app starts
 
-// init project
 var express = require('express');
+var fetch = require('node-fetch');
 var app = express();
 
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+var CLIENT_ID = process.env.CLIENT_ID;
+var CLIENT_SEC = process.env.CLIENT_SEC;
 
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-// http://expressjs.com/en/starter/basic-routing.html
-app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/views/index.html');
+app.get('/', (request, response) => {
+  response.redirect('http://rossoskull.me/gita');
 });
 
-// listen for requests :)
-var listener = app.listen(process.env.PORT, function() {
+app.get('/get_token', (request, response) => {
+  const url = "https://bhagavadgita.io/auth/oauth/token";
+  const options = {
+    "client_id": CLIENT_ID,
+    "cliend_secret": CLIENT_SEC,
+    "grant_type": "client_credentials",
+    "scope": "verse chapters"
+  };
+
+  fetch(url,{
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    },
+    body: `client_id=${CLIENT_ID}&client_secret=${CLIENT_SEC}&grant_type=client_credentials&scope=verse%20chapter`,
+  })
+  .then((res) => {
+    res.json().then((data) => {
+      response.send(data);
+      response.end();
+    });
+  })
+  .catch((err) => {
+    response.send(err);
+    response.end();
+  });
+});
+
+var listener = app.listen(3000 || process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
