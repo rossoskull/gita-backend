@@ -1,4 +1,6 @@
-
+if ( process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
 var express = require('express');
 var fetch = require('node-fetch');
 var app = express();
@@ -31,6 +33,8 @@ app.get('/get_token', (request, response) => {
   })
   .then((res) => {
     res.json().then((data) => {
+      response.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       response.send(data);
       response.end();
     });
@@ -41,6 +45,6 @@ app.get('/get_token', (request, response) => {
   });
 });
 
-var listener = app.listen(3000 || process.env.PORT, function() {
+var listener = app.listen(process.env.PORT || 3000, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
