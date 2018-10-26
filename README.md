@@ -1,4 +1,4 @@
-<p align='center'><img align='center' src='https://github.com/rossoskull/gita/blob/master/src/IMG/bgblue.png'></img></p>  
+<p align='center'><img align='center' src='https://github.com/rossoskull/gita/blob/master/src/IMG/bgblue2.png'></img></p>  
 
 You can visit the app [here](https://rossoskull.me/gita)
 
